@@ -9,7 +9,9 @@ const auth = async (req, res, next) => {
       req.userId = decodedData?.id;
       req.isAdmin = decodedData?.isAdmin;
     } catch (error) {
-      console.log(error);
+      res
+        .status(403)
+        .json({ message: 'Token is not valid!', error: error.message });
     }
   } else {
     res.status(401).json('You are not authenticated!');

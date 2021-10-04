@@ -37,7 +37,7 @@ exports.login = async (req, res) => {
   }
 };
 exports.register = async (req, res) => {
-  const { username, email, password, confirmPassword } = req.body;
+  const { username, email, password, confirmPassword, isAdmin } = req.body;
 
   try {
     // 1. Check if the user exist
@@ -56,11 +56,12 @@ exports.register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      isAdmin,
     });
     newUser.save();
     // 5. Create jwt
     const token = jwt.sign(
-      { email: newUser.email, id: newUser._id },
+      { isAdmin: newUser.isAdmin, id: newUser._id },
       process.env.SECRET_KEY,
       {
         expiresIn: '1h',
