@@ -11,7 +11,7 @@ const {
 const auth = require('../middleware/auth');
 
 router.get('/', auth, getAllUsers);
-router.get('/:id', getUser);
+router.get('/find/:id', getUser);
 router.put('/:id', auth, updateUser);
 router.delete('/:id', auth, deleteUser);
 router.get('/stats', getUserStats);

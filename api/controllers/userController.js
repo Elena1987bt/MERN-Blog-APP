@@ -7,7 +7,7 @@ exports.getAllUsers = async (req, res) => {
   if (req.isAdmin) {
     try {
       const users = query
-        ? await User.find().sort({ _id: -1 }).limit(5)
+        ? await User.find().sort({ _id: -1 }).limit(3)
         : await User.find();
       const info = users.map((user) => {
         const { password, ...info } = user._doc;
@@ -27,13 +27,15 @@ exports.getAllUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
   const { id } = req.params;
   try {
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(404).send(`No user with id: ${id}`);
     const user = await User.findById(id);
     const { password, ...info } = user._doc;
     res.status(200).json({ user: info });
   } catch (err) {
     res
       .status(500)
-      .json({ message: 'Something went wrong', error: error.message });
+      .json({ message: 'Something went wrong', error: err.message });
   }
 };
 
@@ -45,6 +47,8 @@ exports.updateUser = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 12);
     }
     try {
+      if (!mongoose.Types.ObjectId.isValid(id))
+        return res.status(404).send(`No user with id: ${id}`);
       const updatedUser = await User.findByIdAndUpdate(
         id,
         { $set: req.body },
@@ -66,6 +70,8 @@ exports.deleteUser = async (req, res) => {
   const { id } = req.params;
   if (req.userId === id || req.isAdmin) {
     try {
+      if (!mongoose.Types.ObjectId.isValid(id))
+        return res.status(404).send(`No user with id: ${id}`);
       await User.findByIdAndRemove(id);
       res.status(204).json({ user: null, message: 'User has been deleted!' });
     } catch (err) {
@@ -78,8 +84,25 @@ exports.deleteUser = async (req, res) => {
   }
 };
 exports.getUserStats = async (req, res) => {
+  const today = new Date();
+  const lastYear = today.setFullYear(today.setFullYear() - 1);
+
   try {
-  } catch (error) {
-    console.log(error);
+    const data = await User.aggregate([
+      {
+        $project: {
+          month: { $month: '$createdAt' },
+        },
+      },
+      {
+        $group: {
+          _id: '$month',
+          total: { $sum: 1 },
+        },
+      },
+    ]);
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
