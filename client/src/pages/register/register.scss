@@ -20,16 +20,20 @@
       .logo {
         height: 40px;
       }
+      .loginLink {
+        z-index: 10;
+        pointer-events: all;
 
-      .loginButton {
-        background-color: red;
-        border: none;
-        color: white;
-        border-radius: 5px;
-        padding: 5px 15px;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
+        .loginButton {
+          background-color: red;
+          border: none;
+          color: white;
+          border-radius: 5px;
+          padding: 5px 15px;
+          font-size: 16px;
+          font-weight: 500;
+          cursor: pointer;
+        }
       }
     }
   }

@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 
 import Home from './pages/home/Home';
 import Watch from './pages/watch/Watch';
@@ -7,22 +12,31 @@ import Login from './pages/login/Login';
 import './app.scss';
 
 function App() {
+  const user = true;
   return (
     <Router>
       <div className="app">
         <Switch>
           <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/watch">
-            <Watch />
+            {user ? <Home /> : <Redirect to="/register" />}
           </Route>
           <Route path="/register">
-            <Register />
+            {!user ? <Register /> : <Redirect to="/" />}
           </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
+          <Route path="/login">{!user ? <Login /> : <Redirect to="/" />}</Route>
+          {user && (
+            <>
+              <Route exact path="/movies">
+                <Home type="movie" />
+              </Route>
+              <Route exact path="/series">
+                <Home type="series" />
+              </Route>
+              <Route path="/watch">
+                <Watch />
+              </Route>
+            </>
+          )}
         </Switch>
       </div>
     </Router>

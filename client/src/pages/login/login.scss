@@ -16,9 +16,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      .loginLink {
+        margin-left: 5px;
+        z-index: 10;
+        cursor: pointer;
+        pointer-events: all;
 
-      .logo {
-        height: 40px;
+        .logo {
+          height: 40px;
+        }
       }
     }
   }
@@ -70,6 +76,9 @@
 
       span {
         color: lightgray;
+        .loginLink {
+          margin-left: 5px;
+        }
         b {
           color: white;
         }

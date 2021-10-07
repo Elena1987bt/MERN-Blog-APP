@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './register.scss';
 
 const Register = () => {
@@ -19,12 +20,16 @@ const Register = () => {
     <div className="register">
       <div className="top">
         <div className="wrapper">
-          <img
-            className="logo"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
-            alt=""
-          />
-          <button className="loginButton">Sign In</button>
+          <Link to="/" className="link loginLink">
+            <img
+              className="logo"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
+              alt=""
+            />
+          </Link>
+          <Link to="/login" className="link loginLink">
+            <button className="loginButton">Sign In</button>
+          </Link>
         </div>
       </div>
       <div className="container">
