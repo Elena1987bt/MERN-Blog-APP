@@ -42,18 +42,23 @@
         margin: 0 12px;
         cursor: pointer;
       }
+      .link {
+        cursor: pointer;
+      }
       .profile {
         .options {
           display: none;
           background-color: var(--main-color);
           border-radius: 5px;
-
+          .link {
+            color: white;
+            padding-top: 10px;
+          }
           span {
             cursor: pointer;
             padding: 10px;
           }
         }
-
         &:hover {
           .options {
             display: flex;

@@ -14,6 +14,6 @@ router.get('/', auth, getAllUsers);
 router.get('/find/:id', getUser);
 router.put('/:id', auth, updateUser);
 router.delete('/:id', auth, deleteUser);
-router.get('/stats', getUserStats);
+router.get('/stats', auth, getUserStats);
 
 module.exports = router;

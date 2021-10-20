@@ -1,20 +1,24 @@
-import { useRef } from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { register } from '../../auth/apiCalls';
+import { useAuthContext } from '../../auth/authContext';
 import './register.scss';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const { dispatch } = useAuthContext();
 
   const emailRef = useRef();
-  const passwordRef = useRef();
-
-  const handleStart = () => {
+  const handleStart = (e) => {
+    e.preventDefault();
     setEmail(emailRef.current.value);
   };
-  const handleFinish = () => {
-    setPassword(passwordRef.current.value);
+  console.log(email);
+  const handleFinish = (e) => {
+    e.preventDefault();
+    register({ email, password, username }, dispatch);
   };
   return (
     <div className="register">
@@ -47,7 +51,17 @@ const Register = () => {
           </div>
         ) : (
           <form className="input">
-            <input type="password" placeholder="password" ref={passwordRef} />
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
             <button className="registerButton" onClick={handleFinish}>
               Start
             </button>

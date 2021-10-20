@@ -47,7 +47,7 @@ exports.getRandomMovie = async (req, res) => {
     if (type === 'series') {
       movie = await Movie.aggregate([
         { $match: { isSeries: true } },
-        { $sample: { size: 1 } }, // get random movie
+        { $sample: { size: 1 } }, // get random series
       ]);
     } else {
       movie = await Movie.aggregate([
@@ -55,7 +55,6 @@ exports.getRandomMovie = async (req, res) => {
         { $sample: { size: 1 } }, // get random movie
       ]);
     }
-    console.log(movie);
     res.status(200).json(movie);
   } catch (err) {
     res

@@ -13,7 +13,7 @@ const auth = require('../middleware/auth');
 
 router.get('/', auth, getAllMovies);
 router.get('/random', auth, getRandomMovie);
-router.get('/find/:id', getMovie);
+router.get('/find/:id', auth, getMovie);
 router.post('/', auth, createMovie);
 router.put('/:id', auth, updateMovie);
 router.delete('/:id', auth, deleteMovie);

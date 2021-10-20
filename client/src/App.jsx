@@ -9,10 +9,12 @@ import Home from './pages/home/Home';
 import Watch from './pages/watch/Watch';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
+import Settings from './pages/settings/Settings';
+import { useAuthContext } from './auth/authContext';
 import './app.scss';
 
 function App() {
-  const user = true;
+  const { user } = useAuthContext();
   return (
     <Router>
       <div className="app">
@@ -34,6 +36,9 @@ function App() {
               </Route>
               <Route path="/watch">
                 <Watch />
+              </Route>
+              <Route path="/profile">
+                <Settings />
               </Route>
             </>
           )}

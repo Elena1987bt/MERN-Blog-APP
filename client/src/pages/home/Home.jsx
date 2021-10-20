@@ -7,34 +7,33 @@ import './home.scss';
 
 const Home = ({ type }) => {
   const [lists, setLists] = useState([]);
-  const [gerne, setGerne] = useState(null);
+  const [genre, setGenre] = useState(null);
+
   useEffect(() => {
     const getRandomList = async () => {
       try {
         const res = await axios.get(
           `/list${type ? '?type=' + type : ''}${
-            gerne ? '&gerne=' + gerne : ' '
-          }`
-          // {
-          //   headers: {
-          //     token:
-          //       'Bearer ' +
-          //       JSON.parse(localStorage.getItem('user')).accessToken,
-          //   },
-          // }
+            genre ? '&genre=' + genre : ' '
+          }`,
+          {
+            headers: {
+              token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+            },
+          }
         );
-        setLists(res.data);
+        setLists(res.data.list);
       } catch (err) {
         console.log(err.message);
       }
     };
     getRandomList();
-  }, [gerne, type]);
+  }, [genre, type]);
 
   return (
     <div className="home">
       <Navbar />
-      <Featured type={type} />
+      <Featured type={type} setGenre={setGenre} />
       {lists.map((list) => (
         <List key={list._id} list={list} />
       ))}

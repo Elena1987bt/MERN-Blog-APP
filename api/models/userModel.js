@@ -16,7 +16,9 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'A user must provide a password'],
     },
-    profilePic: { type: String, default: '' },
+    profilePic: {
+      type: String,
+    },
     isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true }

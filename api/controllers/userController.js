@@ -7,7 +7,7 @@ exports.getAllUsers = async (req, res) => {
   if (req.isAdmin) {
     try {
       const users = query
-        ? await User.find().sort({ _id: -1 }).limit(3)
+        ? await User.find().sort({ _id: -1 }).limit(Number(query))
         : await User.find();
       const info = users.map((user) => {
         const { password, ...info } = user._doc;
@@ -85,7 +85,7 @@ exports.deleteUser = async (req, res) => {
 };
 exports.getUserStats = async (req, res) => {
   const today = new Date();
-  const lastYear = today.setFullYear(today.setFullYear() - 1);
+  const lastYear = today.getFullYear() - 1;
 
   try {
     const data = await User.aggregate([

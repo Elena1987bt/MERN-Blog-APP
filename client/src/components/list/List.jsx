@@ -24,7 +24,7 @@ const List = ({ list }) => {
   };
   return (
     <div className="list">
-      <span className="listTitle">{list.title}</span>
+      <span className="listTitle">{list?.title}</span>
       <div className="wrapper">
         <ArrowBackOutlinedIcon
           className="sliderArrow left"

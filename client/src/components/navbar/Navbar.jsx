@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
+import Avatar from '@mui/material/Avatar';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+import { useAuthContext } from '../../auth/authContext';
+import { logOut } from '../../auth/authActions';
 import './navbar.scss';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { dispatch } = useAuthContext();
+
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
     return () => (window.onscroll = null);
@@ -19,6 +25,7 @@ const Navbar = () => {
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
             alt=""
           />
+
           <Link to="/" className="link">
             Home
           </Link>
@@ -39,15 +46,16 @@ const Navbar = () => {
           <SearchIcon className="icon" />
           <span>KID</span>
           <NotificationsIcon className="icon" />
-          <img
-            src="https://images.pexels.com/photos/6899260/pexels-photo-6899260.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-            alt=""
-          />
+          <Link to="/profile" className="link">
+            <Avatar alt="" src="" />
+          </Link>
           <div className="profile">
             <ArrowDropDownIcon className="icon" />
             <div className="options">
-              <span>Settings</span>
-              <span>Log Out</span>
+              <Link to="/profile" className="link">
+                <span>Settings</span>
+              </Link>
+              <span onClick={() => dispatch(logOut())}>Logout</span>
             </div>
           </div>
         </div>
