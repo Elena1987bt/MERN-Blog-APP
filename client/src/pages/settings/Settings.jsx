@@ -17,14 +17,25 @@ const Settings = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     const id = user?.result?._id;
-    updateAccount(id, { username, email, password }, dispatch);
+    const updatedUser = {};
+    if (email) {
+      updatedUser.email = email;
+    }
+    if (password) {
+      updatedUser.password = password;
+    }
+    if (username) {
+      updatedUser.username = username;
+    }
+
+    updateAccount(id, updatedUser, dispatch);
     history.push('/');
   };
   return (
     <div className="settings">
       <div className="top">
         <div className="wrapper">
-          <Link to="/" className="link loginLink">
+          <Link to="/" className="link logOutLink">
             <img
               className="logo"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
@@ -68,7 +79,7 @@ const Settings = () => {
               <label>Email</label>
               <input
                 type="email"
-                placeholder="Email or phone number"
+                // placeholder="Email or phone number"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>

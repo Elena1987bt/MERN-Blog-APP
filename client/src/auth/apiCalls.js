@@ -42,7 +42,7 @@ export const updateAccount = async (id, user, dispatch) => {
         token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
-    console.log(res.data);
+
     dispatch(updateAccountSuccess(res.data));
   } catch (err) {
     dispatch(updateAccountFailure());

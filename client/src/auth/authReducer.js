@@ -5,42 +5,36 @@ const AuthReducer = (state, action) => {
         user: null,
         isFetching: true,
         error: false,
-        updatedUser: null,
       };
     case 'REGISTER_SUCCESS':
       return {
         user: action.payload,
         isFetching: false,
         error: false,
-        updatedUser: null,
       };
     case 'REGISTER_FAILURE':
       return {
         user: null,
         isFetching: false,
         error: true,
-        updatedUser: null,
       };
     case 'LOGIN_START':
       return {
         user: null,
         isFetching: true,
         error: false,
-        updatedUser: null,
       };
     case 'LOGIN_SUCCESS':
       return {
         user: action.payload,
         isFetching: false,
         error: false,
-        updatedUser: null,
       };
     case 'LOGIN_FAILURE':
       return {
         user: null,
         isFetching: false,
         error: true,
-        updatedUser: null,
       };
     case 'UPDATE_ACCOUNT_START':
       return {
@@ -49,10 +43,9 @@ const AuthReducer = (state, action) => {
       };
     case 'UPDATE_ACCOUNT_SUCCESS':
       return {
-        user: action.payload,
+        user: { ...state.user, result: { ...action.payload } },
         isFetching: false,
         error: true,
-        updatedUser: action.payload,
       };
     case 'UPDATE_ACCOUNT_FAILURE':
       return {
@@ -64,7 +57,6 @@ const AuthReducer = (state, action) => {
         user: null,
         isFetching: false,
         error: false,
-        updatedUser: null,
       };
     default:
       return { ...state };

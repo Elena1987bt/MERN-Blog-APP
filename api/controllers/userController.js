@@ -42,16 +42,20 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
+  let userData;
+
   if (req.userId === id || req.isAdmin) {
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 12);
+      userData = { ...req.body, password: hashedPassword };
     }
+
     try {
       if (!mongoose.Types.ObjectId.isValid(id))
         return res.status(404).send(`No user with id: ${id}`);
       const updatedUser = await User.findByIdAndUpdate(
         id,
-        { $set: req.body },
+        { $set: userData },
         {
           new: true,
         }
