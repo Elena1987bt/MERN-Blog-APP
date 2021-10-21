@@ -9,7 +9,7 @@ import './listList.css';
 
 const ListList = () => {
   const { lists, dispatch } = useListContext();
-  console.log(lists);
+
   useEffect(() => {
     getAllLists(dispatch);
   }, [dispatch]);

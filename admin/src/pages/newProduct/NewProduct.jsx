@@ -27,7 +27,6 @@ const NewProduct = () => {
     setMovie({ ...movie, [e.target.name]: value });
   };
   const upload = (items) => {
-    console.log(items);
     items.forEach((item) => {
       const fileName = new Date().getTime() + item.label + item.file.name;
       const storageRef = ref(storage, 'images/' + fileName);

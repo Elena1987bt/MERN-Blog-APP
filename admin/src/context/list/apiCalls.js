@@ -51,7 +51,7 @@ export const updateList = async (id, list, dispatch) => {
         token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
-    console.log(res.data);
+
     dispatch(updateListSuccess(res.data));
   } catch (err) {
     console.log(err);
@@ -68,7 +68,7 @@ export const createList = async (list, dispatch) => {
         token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
-    console.log(res.data);
+
     dispatch(createListSuccess(res.data));
   } catch (err) {
     console.log(err);

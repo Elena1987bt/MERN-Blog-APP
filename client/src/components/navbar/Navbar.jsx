@@ -11,7 +11,7 @@ import './navbar.scss';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { dispatch } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
@@ -47,7 +47,7 @@ const Navbar = () => {
           <span>KID</span>
           <NotificationsIcon className="icon" />
           <Link to="/profile" className="link">
-            <Avatar alt="" src="" />
+            <Avatar alt="" src={user?.result?.profilePic} />
           </Link>
           <div className="profile">
             <ArrowDropDownIcon className="icon" />

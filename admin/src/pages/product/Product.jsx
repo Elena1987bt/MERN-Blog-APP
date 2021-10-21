@@ -22,7 +22,6 @@ const Product = () => {
     updateMovie(movie._id, updatedMovie, dispatch);
     history.push('/movies');
   };
-  console.log(updatedMovie);
 
   return (
     <div className="product">

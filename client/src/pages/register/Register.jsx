@@ -15,7 +15,7 @@ const Register = () => {
     e.preventDefault();
     setEmail(emailRef.current.value);
   };
-  console.log(email);
+
   const handleFinish = (e) => {
     e.preventDefault();
     register({ email, password, username }, dispatch);

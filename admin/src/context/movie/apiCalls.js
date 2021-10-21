@@ -55,7 +55,7 @@ export const updateMovie = async (id, movie, dispatch) => {
         },
       }
     );
-    console.log(res.data);
+
     dispatch(updateMovieSuccess(res.data));
   } catch (err) {
     console.log(err);
@@ -72,7 +72,7 @@ export const createMovie = async (movie, dispatch) => {
         token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
-    console.log(res.data);
+
     dispatch(createMovieSuccess(res.data));
   } catch (err) {
     console.log(err);

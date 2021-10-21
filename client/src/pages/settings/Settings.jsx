@@ -3,6 +3,12 @@ import { Link, useHistory } from 'react-router-dom';
 import { updateAccount } from '../../auth/apiCalls';
 import { logOut } from '../../auth/authActions';
 import { useAuthContext } from '../../auth/authContext';
+import {
+  storage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from '../../firebase';
 import './settings.scss';
 
 const Settings = () => {
@@ -11,8 +17,40 @@ const Settings = () => {
   const [password, setPassword] = useState('');
   const [img, setImg] = useState(null);
   const { user, dispatch } = useAuthContext();
+  const [uploaded, setUploaded] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const history = useHistory();
-  // console.log(user);
+
+  const upload = (item) => {
+    const fileName = new Date().getTime() + item.label + item.file.name;
+    const storageRef = ref(storage, 'images/' + fileName);
+    const uploadTask = uploadBytesResumable(storageRef, item.file, {
+      contentType: item.file.type,
+    });
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          setImg(downloadURL);
+          setUploaded((prev) => prev + 1);
+        });
+      }
+    );
+  };
+  const handleUpload = (e) => {
+    e.preventDefault();
+    setIsUploading(true);
+    upload({ file: img, label: 'profilePic' });
+  };
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -26,6 +64,9 @@ const Settings = () => {
     }
     if (username) {
       updatedUser.username = username;
+    }
+    if (img) {
+      updatedUser.profilePic = img;
     }
 
     updateAccount(id, updatedUser, dispatch);
@@ -54,7 +95,10 @@ const Settings = () => {
           <div className="settings-centerLeft">
             <h3>Your details</h3>
             <div className="settings-centerLeftItem">
-              <img src={user?.result?.img ? user.result.img : ''} alt="" />
+              <img
+                src={user?.result?.profilePic ? user.result.profilePic : ''}
+                alt=""
+              />
             </div>
             <div className="settings-centerLeftItem">
               <span>Username: </span>
@@ -101,9 +145,15 @@ const Settings = () => {
                 onChange={(e) => setImg(e.target.files[0])}
               />
             </div>
-            <button className="button" type="submit" onClick={handleUpdate}>
-              Update Account
-            </button>
+            {uploaded === 1 ? (
+              <button className="addProductButton" onClick={handleUpdate}>
+                Finish
+              </button>
+            ) : (
+              <button className="addProductButton" onClick={handleUpload}>
+                {!isUploading ? 'Update Account' : 'Uploading...'}
+              </button>
+            )}
           </div>
         </div>
       </div>

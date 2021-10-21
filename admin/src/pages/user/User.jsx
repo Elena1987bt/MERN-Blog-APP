@@ -13,7 +13,6 @@ const User = () => {
   const user = location.user;
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log('123');
   };
   return (
     <div className="user">

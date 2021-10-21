@@ -19,7 +19,7 @@ const List = () => {
     e.preventDefault();
     updateList(list._id, updatedList, dispatch);
   };
-  console.log(updatedList);
+  
 
   return (
     <div className="product">

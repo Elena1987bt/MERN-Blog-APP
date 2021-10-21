@@ -25,7 +25,7 @@ import './App.css';
 
 function App() {
   const { user } = useAuthContext();
-  // console.log(user);
+
   return (
     <Router>
       <Switch>
