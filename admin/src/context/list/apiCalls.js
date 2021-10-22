@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { API } from '../../config.js';
 import {
   getListStart,
   getListFailure,
@@ -17,9 +17,10 @@ import {
 export const getAllLists = async (dispatch) => {
   dispatch(getListStart());
   try {
-    const res = await axios.get('http://127.0.0.1:8080/api/list', {
+    const res = await API.get('list', {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
     dispatch(getListSuccess(res.data.list));
@@ -32,9 +33,10 @@ export const getAllLists = async (dispatch) => {
 export const deleteList = async (id, dispatch) => {
   dispatch(deleteListStart());
   try {
-    await axios.delete(`http://127.0.0.1:8080/api/list/${id}`, {
+    await API.delete(`list/${id}`, {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
     dispatch(deleteListSuccess(id));
@@ -46,9 +48,10 @@ export const deleteList = async (id, dispatch) => {
 export const updateList = async (id, list, dispatch) => {
   dispatch(updateListStart());
   try {
-    const res = await axios.put(`http://127.0.0.1:8080/api/list/${id}`, list, {
+    const res = await API.put(`list/${id}`, list, {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
 
@@ -63,9 +66,10 @@ export const updateList = async (id, list, dispatch) => {
 export const createList = async (list, dispatch) => {
   dispatch(createListStart());
   try {
-    const res = await axios.post(`http://127.0.0.1:8080/api/list`, list, {
+    const res = await API.post(`list`, list, {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
 

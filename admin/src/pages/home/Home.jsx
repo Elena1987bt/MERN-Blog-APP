@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import Chart from '../../components/chart/Chart';
-import axios from 'axios';
+import { API } from '../../config.js';
 
 import { useAuthContext } from '../../context/auth/authContext';
 import FeaturedInfo from '../../components/featuredInfo/FeaturedInfo';
@@ -32,9 +32,9 @@ const Home = () => {
   useEffect(() => {
     const getStats = async () => {
       try {
-        const res = await axios.get('/user/stats', {
+        const res = await API.get('user/stats', {
           headers: {
-            token: 'Bearer ' + user.token,
+            authorization: 'Bearer ' + user.token,
           },
         });
         const statsList = res.data.sort(function (a, b) {

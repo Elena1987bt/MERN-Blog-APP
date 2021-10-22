@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 
 const auth = async (req, res, next) => {
-  const token = req?.headers?.token?.split(' ')[1];
+  const token = req?.headers?.authorization?.split(' ')[1];
+
   let decodedData;
   if (token) {
     try {
@@ -13,10 +14,10 @@ const auth = async (req, res, next) => {
         .status(403)
         .json({ message: 'Token is not valid!', error: error.message });
     }
+    next();
   } else {
     res.status(401).json('You are not authenticated!');
   }
-  next();
 };
 
 module.exports = auth;

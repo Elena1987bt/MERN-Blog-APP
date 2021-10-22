@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { API } from '../../config.js';
+
 import {
   getMoviesStart,
   getMoviesFailure,
@@ -17,9 +18,10 @@ import {
 export const getAllMovies = async (dispatch) => {
   dispatch(getMoviesStart());
   try {
-    const res = await axios.get('http://127.0.0.1:8080/api/movie', {
+    const res = await API.get('movie', {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
     dispatch(getMoviesSuccess(res.data.movies));
@@ -32,9 +34,10 @@ export const getAllMovies = async (dispatch) => {
 export const deleteMovie = async (id, dispatch) => {
   dispatch(deleteMoviesStart());
   try {
-    await axios.delete(`http://127.0.0.1:8080/api/movie/${id}`, {
+    await API.delete(`movie/${id}`, {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
     dispatch(deleteMovieSuccess(id));
@@ -46,15 +49,12 @@ export const deleteMovie = async (id, dispatch) => {
 export const updateMovie = async (id, movie, dispatch) => {
   dispatch(updateMoviesStart());
   try {
-    const res = await axios.put(
-      `http://127.0.0.1:8080/api/movie/${id}`,
-      movie,
-      {
-        headers: {
-          token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
-        },
-      }
-    );
+    const res = await API.put(`movie/${id}`, movie, {
+      headers: {
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+      },
+    });
 
     dispatch(updateMovieSuccess(res.data));
   } catch (err) {
@@ -67,9 +67,10 @@ export const updateMovie = async (id, movie, dispatch) => {
 export const createMovie = async (movie, dispatch) => {
   dispatch(createMoviesStart());
   try {
-    const res = await axios.post(`http://127.0.0.1:8080/api/movie`, movie, {
+    const res = await API.post(`movie`, movie, {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
 

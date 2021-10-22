@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { API } from '../../../auth/apiCalls';
 import { Link } from 'react-router-dom';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
@@ -14,9 +14,10 @@ const ListItem = ({ index, item }) => {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const res = await axios.get(`/movie/find/${item}`, {
+        const res = await API.get(`/movie/find/${item}`, {
           headers: {
-            token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+            authorization:
+              'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
           },
         });
         setMovie(res.data);
@@ -46,12 +47,16 @@ const ListItem = ({ index, item }) => {
                 <ThumbUpAltOutlinedIcon className="icon" />
                 <ThumbDownAltOutlinedIcon className="icon" />
               </div>
+              <p>{movie?.title}</p>
               <div className="itemInfoTop">
                 <span>{movie?.duration} hours</span>
                 <span className="limit">+{movie?.limit}</span>
                 <span>{movie?.year}</span>
               </div>
-              <div className="desc">{movie?.desc}</div>
+              <div className="desc">{`${movie?.desc.substring(
+                0,
+                180
+              )}...`}</div>
               <div className="genre">{movie?.genre}</div>
             </div>
           </>

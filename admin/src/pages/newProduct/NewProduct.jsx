@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   storage,
@@ -19,6 +19,8 @@ const NewProduct = () => {
   const [video, setVideo] = useState(null);
   const [uploaded, setUploaded] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [progress, setProgress] = useState(null);
+  const [error, setError] = useState(false);
 
   const { dispatch } = useMoviesContext();
   const history = useHistory();
@@ -39,6 +41,7 @@ const NewProduct = () => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log('Upload is ' + progress + '% done');
+          setProgress(progress);
         },
         (error) => {
           console.log(error);
@@ -57,6 +60,9 @@ const NewProduct = () => {
   };
   const handleUpload = (e) => {
     e.preventDefault();
+    if (!movie || !img || !imgSm || !imgTitle || !trailer || !video) {
+      return setError(true);
+    }
     setIsUploading(true);
     upload([
       { file: img, label: 'img' },
@@ -69,13 +75,21 @@ const NewProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!movie || !img || !imgSm || !imgTitle || !trailer || !video) {
+    }
     createMovie(movie, dispatch);
     history.push('/movies');
   };
-
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError(false);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [error]);
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New Movie</h1>
+      <p className="error">{error && `You must fill all the fields!`}</p>
       <form className="addProductForm">
         <div className="addProductItem">
           <label>Image</label>
@@ -188,7 +202,8 @@ const NewProduct = () => {
           </button>
         ) : (
           <button className="addProductButton" onClick={handleUpload}>
-            {!isUploading ? 'Upload' : 'Uploading...'}
+            {!isUploading ? 'Upload' : `Uploading `}
+            {progress && `${Math.round(progress)} %`}
           </button>
         )}
       </form>

@@ -42,12 +42,13 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
-  let userData;
+  let userData = req.body;
+  console.log(req.body);
 
   if (req.userId === id || req.isAdmin) {
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 12);
-      userData = { ...req.body, password: hashedPassword };
+      userData = { ...userData, password: hashedPassword };
     }
 
     try {

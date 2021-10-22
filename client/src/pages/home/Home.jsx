@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { API } from '../../auth/apiCalls';
 import Navbar from '../../components/navbar/Navbar';
 import Featured from '../../components/featured/Featured';
 import List from '../../components/list/List';
@@ -12,13 +12,14 @@ const Home = ({ type }) => {
   useEffect(() => {
     const getRandomList = async () => {
       try {
-        const res = await axios.get(
+        const res = await API.get(
           `/list${type ? '?type=' + type : ''}${
             genre ? '&genre=' + genre : ' '
           }`,
           {
             headers: {
-              token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+              authorization:
+                'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
             },
           }
         );

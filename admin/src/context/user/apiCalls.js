@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { API } from '../../config.js';
 import {
   userStart,
   userFailure,
@@ -11,9 +11,10 @@ import {
 export const getAllUsers = async (dispatch) => {
   dispatch(userStart());
   try {
-    const res = await axios.get('http://127.0.0.1:8080/api/user', {
+    const res = await API.get('user', {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
     dispatch(userSuccess(res?.data?.users));
@@ -25,9 +26,10 @@ export const getAllUsers = async (dispatch) => {
 export const deleteUser = async (id, dispatch) => {
   dispatch(deleteUserStart());
   try {
-    await axios.delete(`http://127.0.0.1:8080/api/user/${id}`, {
+    await API.delete(`user/${id}`, {
       headers: {
-        token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+        authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
       },
     });
     dispatch(deleteUserSuccess(id));

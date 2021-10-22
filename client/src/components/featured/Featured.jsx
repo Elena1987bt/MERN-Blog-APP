@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { API } from '../../auth/apiCalls';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import './featured.scss';
@@ -9,9 +9,10 @@ const Featured = ({ type, setGenre }) => {
   useEffect(() => {
     const getRandomContent = async () => {
       try {
-        const res = await axios.get(`/movie/random?type=${type}`, {
+        const res = await API.get(`/movie/random?type=${type}`, {
           headers: {
-            token: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+            authorization:
+              'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
           },
         });
         setRandomContent(res.data[0]);

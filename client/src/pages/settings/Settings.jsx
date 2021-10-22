@@ -48,8 +48,14 @@ const Settings = () => {
   };
   const handleUpload = (e) => {
     e.preventDefault();
-    setIsUploading(true);
-    upload({ file: img, label: 'profilePic' });
+
+    if (img) {
+      setIsUploading(true);
+      upload({ file: img, label: 'profilePic' });
+      return;
+    }
+
+    setUploaded(1);
   };
 
   const handleUpdate = (e) => {

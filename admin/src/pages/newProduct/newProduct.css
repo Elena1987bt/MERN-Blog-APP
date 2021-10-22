@@ -1,6 +1,11 @@
 .newProduct {
   flex: 4;
 }
+.error {
+  font-size: 18px;
+  text-align: center;
+  color: red;
+}
 
 .addProductForm {
   margin-top: 10px;

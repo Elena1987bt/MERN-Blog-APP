@@ -8,8 +8,9 @@ const userRouter = require('./routes/userRoute');
 const movieRouter = require('./routes/movieRoute');
 const listRouter = require('./routes/listRoute');
 
-dotenv.config();
 const app = express();
+dotenv.config();
+
 const port = process.env.PORT || 8080;
 
 // Middleware
@@ -18,6 +19,7 @@ app.use(cors());
 app.options('*', cors());
 
 // Routes
+app.get('/', (req, res) => res.send('Hello from Netflix API'));
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/movie', movieRouter);

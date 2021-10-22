@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { API } from '../../config.js';
 
 import WidgetSmListItem from './widgetSmListItem/WidgetSmListItem';
 import { useAuthContext } from '../../context/auth/authContext';
@@ -12,9 +12,9 @@ const WidgetSm = () => {
   useEffect(() => {
     const getNewUsers = async () => {
       try {
-        const res = await axios.get('/user?new=5', {
+        const res = await API.get('/user?new=5', {
           headers: {
-            token: 'Bearer ' + user.token,
+            authorization: 'Bearer ' + user.token,
           },
         });
         setNewUsers(res.data.users);
